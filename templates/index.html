@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страны</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #2397ae;
+            color: #333;
+            display: flex;
+            justify-content: space-between; 
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+        .form-container {
+            max-width: 400px; 
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-left: 20px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container button {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .form-container input[type="text"]:focus,
+        .form-container input[type="number"]:focus {
+            outline: none;
+            border-color: #2397ae;
+            box-shadow: 0 0 5px rgba(35, 151, 174, 0.5);
+        }
+        .form-container button {
+            background-color: #2397ae;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .form-container button:hover {
+            background-color: #1d7f94;
+        }
+        
+        .countries-container {
+            flex-grow: 1; 
+            margin-right: 20px; 
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f9f9f9; 
+        }
+        
+        .country-row {
+            transition: transform 0.2s; 
+        }
+
+        .country-row:hover {
+            transform: scale(1.01); 
+        }
+
+        .delete-btn {
+            color: red;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+        }
+        
+        .delete-btn:hover {
+            color: darkred;
+        }
+
+        .flag {
+            width: 50px; 
+            height: auto; 
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="countries-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Флаг</th>
+                    <th>Территория (км²)</th>
+                    <th>Год основания</th>
+                    <th>Валюта</th>
+                    <th></th> 
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                    <tr class="country-row">
+                        <td>{{.Name}}</td>
+
+                        {{if .Flag}}
+                        <td><img src="{{.Flag}}" alt="Флаг {{.Name}}" class="flag"></td>
+                        {{else}}
+                        <td>Нет флага</td>
+                        {{end}}
+
+                        <td>{{.Territory}}</td>
+                        <td>{{.FoundationYear}}</td>
+                        <td>{{.Currency}}</td>
+
+                        <td>
+                            <form action="/delete" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="{{.ID}}">
+                                <button type="submit" class="delete-btn">×</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-container">
+        <h2>Добавить новую страну</h2>
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="Название страны" required>
+            <input type="text" name="flag" placeholder="URL флага (необязательно)">
+            <input type="text" name="territory" placeholder="Территория (км²)" required>
+            <input type="number" name="foundation_year" placeholder="Год основания" required>
+            <input type="text" name="currency" placeholder="Валюта" required>
+            <button type="submit">Добавить страну</button>
+        </form>
+    </div>
+
+</body>
+</html>
