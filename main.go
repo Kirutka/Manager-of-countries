@@ -20,7 +20,7 @@ type Country struct {
 }
 
 func main() {
-	db, err := sql.Open("postgres", "user=postgres password=123 host=localhost dbname=users sslmode=disable") // подключение к базе данных
+	db, err := sql.Open("postgres", "user=postgres password=ваш-пароль host=localhost dbname=users sslmode=disable") // подключение к базе данных
 	if err != nil {
 		log.Fatalf("Ошибка подключения к базе данных: %v", err)
 	}
